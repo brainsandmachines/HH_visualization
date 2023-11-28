@@ -1,16 +1,21 @@
-# This is a sample Python script.
+import tkinter as tk
+from HH_front import HHSimulatorGUI
+import HH_front
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def main():
+    # Create the main window (root) for the application and set the initial size of the window
+    root = tk.Tk()
+    root.geometry('1100x850+0+0')
+
+    # Create an instance of the HHSimulatorGUI
+    app = HHSimulatorGUI(root)
+
+    # Set the title of the window
+    root.title("Hodgkin Huxley model simulator")
+
+    # Start the GUI event loop
+    root.mainloop()
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+if __name__ == "__main__":
+    main()
