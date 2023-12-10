@@ -1,6 +1,5 @@
 import tkinter as tk
 from HH_front import HHSimulatorGUI
-import HH_front
 
 def main():
     # Create the main window (root) for the application and set the initial size of the window
