@@ -10,7 +10,7 @@ It includes the following functions:
   - Supporing `alpha` and `beta` functions (for each gate N, M and H) that calculates the the values of the gates probability.
   - `plot_potential` function that plots a graph of voltage as a function of time and returns it's figure.
   - `plot_dynamics` function that plots the dynamics of the gates N, M and H as a function of time and returns it's figure.
-  - `is_action_potential` funciton that checks if the voltage surpass a threshold to determine if the neuron fired.
+  - `is_action_potential` function that checks if the voltage surpass a threshold to determine if the neuron fired.
 - **HH_front.py**: This file defines the `HHSimulatorGUI` class, which provides a visualization of the neuron's membrane potential and the gates dynamics. 
 It includes the following methods:
   - `__init__` to create the main window
@@ -55,7 +55,7 @@ The GUI allows you to modify the following parameters of the integrate-and-fire 
 
 By adjusting these parameters, you can explore how they influence the neuron's firing behavior and gain a deeper understanding of the Hodgkin-Huxley model.
 
-## Ineractive Platform:
+## Interactive Platform:
 
 This project serves as an interactive platform for students to:
 

@@ -108,8 +108,8 @@ def plot_potential(i_inj, time_tot, legend_txt=[]):
     f = plt.figure(1, figsize=(5, 3.8))
     plt.plot(time, V)
     plt.title('Action potential voltage')
-    legend_txt.append(str((i_inj, time_tot)))
-    print(legend_txt)
+    new_legend = str(i_inj) + '[nA], ' + str(time_tot) + '[msec]'
+    legend_txt.append(new_legend)
     plt.legend(legend_txt, loc='upper right')
     plt.xlabel('Time [msec]')
     plt.ylabel('Voltage [mV]')
@@ -142,11 +142,3 @@ def is_action_potential(i_inj, time_tot, threshold=15):
         return True
     else:
         return False
-
-
-# testings
-# i_inj = 15
-# time_tot = 40
-# plot_potential(i_inj, time_tot)
-# plot_dynamics(i_inj, time_tot)
-# plt.show()
