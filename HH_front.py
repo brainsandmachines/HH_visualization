@@ -9,8 +9,9 @@ import HH_back as HH
 class HHSimulatorGUI:
     def __init__(self, master):
         self.master = master
+        self.create_main_frames()
 
-        self.neuron_state_label = tk.Label(self.master, text='', font=('Arial', 15))
+        self.neuron_state_label = tk.Label(self.status_frame, text='', font=('Arial', 15))
         self.legend_txt = []
         self.action_fig = None
         self.dynamics_fig = None
@@ -24,37 +25,43 @@ class HHSimulatorGUI:
         # create the widgets of the GUI window
         self.create_widgets()
 
+    def create_main_frames(self):
+        """Creates the main frames for the widgets"""
+
+        self.control_frame = tk.Frame(self.master)
+        self.control_frame.grid(row=1, column=0, sticky='NW', pady=5, padx=5)
+
+        self.buttons_frame = tk.Frame(self.control_frame)
+        self.buttons_frame.grid(row=2, column=0, sticky='SW', pady=5, padx=5)
+
+        self.status_frame = tk.Frame(self.control_frame)
+        self.status_frame.grid(row=3, column=0, sticky='SW', pady=5, padx=5)
 
     def create_widgets(self):
         """Creates the widgets, titles and buttons of the window"""
-
         # Labels
         self.main_title = tk.Label(self.master, text="Parameters:", font=('Arial', 12))
         self.main_title.grid(row=0, column=0, pady=10)
 
-        self.amp_title = tk.Label(self.master, text='Current step amplitude [nano Amper]')
-        self.amp_title.grid(row=1, column=0, pady=10)
+        self.amp_title = tk.Label(self.control_frame, text='Current step amplitude [nano Amper]')
+        self.amp_title.grid(row=0, column=0, pady=10)
 
-        self.time_title = tk.Label(self.master, text='Experiment duration [milli second]')
-        self.time_title.grid(row=2, column=0, pady=10)
+        self.time_title = tk.Label(self.control_frame, text='Experiment duration [milli second]')
+        self.time_title.grid(row=1, column=0, pady=10)
 
-        self.neuron_status_headline = tk.Label(self.master, text='Neuron status:', font=('Arial', 15))
-        self.neuron_status_headline.grid(row=1, column=3, pady=10, padx=10)
+        self.neuron_status_headline = tk.Label(self.status_frame, text='Neuron status:', font=('Arial', 15))
+        self.neuron_status_headline.grid(row=0, column=0, pady=10, padx=10)
 
         # Entry text-boxs
-        self.amp_spinbox = tk.Spinbox(self.master, from_=1, to=100, increment=5, width=5)
-        self.amp_spinbox.grid(row=1, column=1, pady=10)
+        self.amp_spinbox = tk.Spinbox(self.control_frame, from_=1, to=100, increment=5, width=5)
+        self.amp_spinbox.grid(row=0, column=1, pady=10)
         self.amp_spinbox.delete(0, tk.END)
         self.amp_spinbox.insert(0, 15)
 
-        self.time_spinbox = tk.Spinbox(self.master, from_=1, to=100, increment=5, width=5)
-        self.time_spinbox.grid(row=2, column=1, pady=10)
+        self.time_spinbox = tk.Spinbox(self.control_frame, from_=1, to=100, increment=5, width=5)
+        self.time_spinbox.grid(row=1, column=1, pady=10)
         self.time_spinbox.delete(0, tk.END)
         self.time_spinbox.insert(0, 15)
-
-
-        self.buttons_frame = tk.Frame(self.master)
-        self.buttons_frame.grid(row=3, column=0, sticky='SW', pady=5, padx=5)
 
         # Buttons
         self.button_plot = tk.Button(self.buttons_frame, text="Plot data", command=lambda:
@@ -80,11 +87,11 @@ class HHSimulatorGUI:
 
         self.action_potential = FigureCanvasTkAgg(self.action_fig, master=self.master)
         self.action_potential.draw()
-        self.action_potential.get_tk_widget().grid(row=4, column=3, pady=2)
+        self.action_potential.get_tk_widget().grid(row=1, column=1, pady=2)
 
         self.dynamics_plot = FigureCanvasTkAgg(self.dynamics_fig, master=self.master)
         self.dynamics_plot.draw()
-        self.dynamics_plot.get_tk_widget().grid(row=5, column=3, pady=2)
+        self.dynamics_plot.get_tk_widget().grid(row=2, column=1, pady=2)
 
         # Check if an action potential occurred or not and writes a message accordingly
         if HH.is_action_potential(i_inj, time_tot):
@@ -94,7 +101,7 @@ class HHSimulatorGUI:
         
         # neuron_status_label = tk.Label(self.master, text='neuron_status', font=('Arial', 15))
         self.neuron_state_label.config(text=neuron_status)
-        self.neuron_state_label.grid(row=2, column=3, pady=10, padx=10)
+        self.neuron_state_label.grid(row=1, column=0, pady=10, padx=10)
 
         self.plotted = True
 
@@ -111,7 +118,7 @@ class HHSimulatorGUI:
 
         self.plotted = False
 
-        self.neuron_state_label.config(text='Both graphs were erased :)')
+        self.neuron_state_label.config(text='Both graphs were erased')
 
 
 if __name__ == "__main__":

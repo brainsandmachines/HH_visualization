@@ -124,7 +124,7 @@ def plot_dynamics(i_inj, time_tot):
                 have a step current)"""
     
     [V, M, H, N, time] = HH(i_inj, time_tot)
-    f = plt.figure(2, figsize=(5, 2.2))
+    f = plt.figure(2, figsize=(5, 3.8))
     plt.plot(time, M, time, H, 'r-', time, N, 'g-')
     plt.title('Dynamics of the 3 gating particles')
     plt.legend(['M', 'H', 'N'], loc='upper right')
