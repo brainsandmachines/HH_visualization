@@ -32,9 +32,9 @@ class HHSimulatorGUI:
         # create the widgets of the GUI window
         self.create_widgets()
 
+
     def create_main_frames(self):
         """Creates the main frames for the widgets"""
-
         self.control_frame = tk.Frame(self.master)
         self.control_frame.grid(row=1, column=0, sticky='NW', pady=5, padx=5)
 
@@ -43,6 +43,7 @@ class HHSimulatorGUI:
 
         self.status_frame = tk.Frame(self.control_frame)
         self.status_frame.grid(row=3, column=0, sticky='SW', pady=5, padx=5)
+
 
     def create_widgets(self):
         """Creates the widgets, titles and buttons of the window"""
@@ -73,7 +74,7 @@ class HHSimulatorGUI:
         # Buttons
         self.button_plot = tk.Button(self.buttons_frame, text="Plot data", command=lambda:
                                       self.plot_data(int(self.amp_spinbox.get()),
-                                                      int(self.time_spinbox.get()), self.legend_txt))
+                                                      int(self.time_spinbox.get())))
         self.button_plot.grid(row=0, column=0, sticky='SW', pady=10, padx=5)
 
         self.button_delete = tk.Button(self.buttons_frame, text="Erase data", command=self.erase_data)
@@ -96,7 +97,8 @@ class HHSimulatorGUI:
                                                  variable=self.H_active, onvalue=False, offvalue=True)
         self.H_active_checkbox.grid(row=1, column=2, sticky='SW', pady=5, padx=5)
 
-    def plot_data(self, i_inj, time_tot, legend_txt):
+
+    def plot_data(self, i_inj, time_tot):
         """Plots the graphs in the window with the inserted entries"""
         if self.stack_plots.get() == 0:
             if self.plotted:
@@ -106,10 +108,12 @@ class HHSimulatorGUI:
         M_active = self.M_active.get()
         H_active = self.H_active.get()
 
-        [self.action_fig, self.legend_txt] = HH.plot_potential(i_inj, time_tot, N_active, M_active,
-                                                                H_active, legend_txt)
+        self.create_legend_txt(i_inj, time_tot)
+
+        self.action_fig = HH.plot_potential(i_inj, time_tot, N_active, M_active,
+                                                                H_active, self.legend_txt)
         self.dynamics_fig = HH.plot_dynamics(i_inj, time_tot, N_active, M_active, H_active)
-        self.step_current_fig = HH.plot_step_current(i_inj, time_tot)
+        self.step_current_fig = HH.plot_step_current(i_inj, time_tot, self.legend_txt)
 
         self.action_potential = FigureCanvasTkAgg(self.action_fig, master=self.master)
         self.action_potential.draw()
@@ -150,6 +154,12 @@ class HHSimulatorGUI:
         self.plotted = False
 
         self.neuron_state_label.config(text='Both graphs were erased')
+
+
+    def create_legend_txt(self, i_inj, time_tot):
+        new_legend = str(i_inj) + '[nA], ' + str(time_tot) + '[msec]'
+        self.legend_txt.append(new_legend)
+
 
 
 if __name__ == "__main__":

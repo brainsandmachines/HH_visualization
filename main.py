@@ -4,7 +4,7 @@ from HH_front import HHSimulatorGUI
 def main():
     # Create the main window (root) for the application and set the initial size of the window
     root = tk.Tk()
-    root.geometry('850x850+0+0')
+    root.geometry('1400x850+0+0')
 
     # Create an instance of the HHSimulatorGUI
     app = HHSimulatorGUI(root)

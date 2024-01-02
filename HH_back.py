@@ -114,7 +114,7 @@ def betaH(v):
 
 
 
-def plot_potential(i_inj, time_tot, N_active, M_active, H_active, legend_txt=[]):
+def plot_potential(i_inj, time_tot, N_active, M_active, H_active, legend_txt):
     """The function plots returns a figure with a graph of the voltage as a function of time.
        input: - i_inj - the amplitude of the step current in nano Amper [nA]
               - time_tot - the total time of the expirament (only a certain precentage of the total time will
@@ -125,12 +125,12 @@ def plot_potential(i_inj, time_tot, N_active, M_active, H_active, legend_txt=[])
     f = plt.figure(1, figsize=(5, 3.8))
     plt.plot(time, V)
     plt.title('Action potential voltage')
-    new_legend = str(i_inj) + '[nA], ' + str(time_tot) + '[msec]'
-    legend_txt.append(new_legend)
+    # new_legend = str(i_inj) + '[nA], ' + str(time_tot) + '[msec]'
+    # legend_txt.append(new_legend)
     plt.legend(legend_txt, loc='upper right')
     plt.xlabel('Time [msec]')
     plt.ylabel('Voltage [mV]')
-    return f, legend_txt
+    return f
 
 
 def plot_dynamics(i_inj, time_tot, N_active=True, M_active=True, H_active=True):
@@ -161,13 +161,13 @@ def plot_dynamics_by_volt(i_inj, time_tot):
     return f
 
 
-def plot_step_current(i_inj, time_tot, legend_txt=[]):
+def plot_step_current(i_inj, time_tot, legend_txt):
     [V, M, H, N, time, step_current] = HH(i_inj, time_tot)
     f = plt.figure(4, figsize=(5, 3.8))
     plt.plot(time, step_current)
     plt.title('Step current')
-    new_legend = str(i_inj) + '[nA], ' + str(time_tot) + '[msec]'
-    legend_txt.append(new_legend)
+    # new_legend = str(i_inj) + '[nA], ' + str(time_tot) + '[msec]'
+    # legend_txt.append(new_legend)
     plt.legend(legend_txt, loc='upper right')
     plt.xlabel('Time [msec]')
     plt.ylabel('Current [nA]')
