@@ -73,7 +73,7 @@ class HHSimulatorGUI:
 
         # Buttons
         self.button_plot = tk.Button(self.buttons_frame, text="Plot data", command=lambda:
-                                      self.plot_data(int(self.amp_spinbox.get()),
+                                      self.plot_data(float(self.amp_spinbox.get()),
                                                       int(self.time_spinbox.get())))
         self.button_plot.grid(row=0, column=0, sticky='SW', pady=10, padx=5)
 

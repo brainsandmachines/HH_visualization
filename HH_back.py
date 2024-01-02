@@ -185,10 +185,10 @@ def is_action_potential(i_inj, time_tot, threshold=15):
         return False
     
 
-# i_inj = 15
-# time_tot = 15
+i_inj = 15
+time_tot = 15
 
-# plot_step_current(i_inj, time_tot)
+# plot_step_current(i_inj, time_tot, [])
 # plt.show()
-# plot_dynamics_by_volt(i_inj, time_tot)
-# plt.show()
+plot_dynamics_by_volt(i_inj, time_tot)
+plt.show()
