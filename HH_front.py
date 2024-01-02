@@ -13,14 +13,21 @@ class HHSimulatorGUI:
 
         self.neuron_state_label = tk.Label(self.status_frame, text='', font=('Arial', 15))
         self.legend_txt = []
+
         self.action_fig = None
         self.dynamics_fig = None
+        self.step_current_fig = None
 
         self.action_potential = None
         self.dynamics_plot = None
+        self.step_current = None
         
         self.stack_plots = tk.IntVar()
         self.plotted = False
+
+        self.N_active = tk.BooleanVar(value=True)
+        self.M_active = tk.BooleanVar(value=True)
+        self.H_active = tk.BooleanVar(value=True)
 
         # create the widgets of the GUI window
         self.create_widgets()
@@ -72,9 +79,22 @@ class HHSimulatorGUI:
         self.button_delete = tk.Button(self.buttons_frame, text="Erase data", command=self.erase_data)
         self.button_delete.grid(row=0, column=1, sticky='SW', pady=10, padx=5)
 
-        self.checkbox = tk.Checkbutton(self.buttons_frame, text='Stack plots',variable=self.stack_plots, onvalue=1, offvalue=0)
-        self.checkbox.grid(row=0, column=2, sticky='SW', pady=10, padx=5)
+        # Checkboxes
+        self.stack_checkbox = tk.Checkbutton(self.buttons_frame, text='Stack plots',
+                                              variable=self.stack_plots, onvalue=1, offvalue=0)
+        self.stack_checkbox.grid(row=0, column=2, sticky='SW', pady=10, padx=5)
 
+        self.N_active_checkbox = tk.Checkbutton(self.buttons_frame, text='Deactivate N',
+                                                 variable=self.N_active, onvalue=False, offvalue=True)
+        self.N_active_checkbox.grid(row=1, column=0, sticky='SW', pady=5, padx=5)
+        
+        self.M_active_checkbox = tk.Checkbutton(self.buttons_frame, text='Deactivate M',
+                                                 variable=self.M_active, onvalue=False, offvalue=True)
+        self.M_active_checkbox.grid(row=1, column=1, sticky='SW', pady=5, padx=5)
+        
+        self.H_active_checkbox = tk.Checkbutton(self.buttons_frame, text='Deactivate H',
+                                                 variable=self.H_active, onvalue=False, offvalue=True)
+        self.H_active_checkbox.grid(row=1, column=2, sticky='SW', pady=5, padx=5)
 
     def plot_data(self, i_inj, time_tot, legend_txt):
         """Plots the graphs in the window with the inserted entries"""
@@ -82,8 +102,14 @@ class HHSimulatorGUI:
             if self.plotted:
                 self.erase_data()
 
-        [self.action_fig, self.legend_txt] = HH.plot_potential(i_inj, time_tot, legend_txt)
-        self.dynamics_fig = HH.plot_dynamics(i_inj, time_tot)
+        N_active = self.N_active.get()
+        M_active = self.M_active.get()
+        H_active = self.H_active.get()
+
+        [self.action_fig, self.legend_txt] = HH.plot_potential(i_inj, time_tot, N_active, M_active,
+                                                                H_active, legend_txt)
+        self.dynamics_fig = HH.plot_dynamics(i_inj, time_tot, N_active, M_active, H_active)
+        self.step_current_fig = HH.plot_step_current(i_inj, time_tot)
 
         self.action_potential = FigureCanvasTkAgg(self.action_fig, master=self.master)
         self.action_potential.draw()
@@ -92,6 +118,10 @@ class HHSimulatorGUI:
         self.dynamics_plot = FigureCanvasTkAgg(self.dynamics_fig, master=self.master)
         self.dynamics_plot.draw()
         self.dynamics_plot.get_tk_widget().grid(row=2, column=1, pady=2)
+
+        self.step_current = FigureCanvasTkAgg(self.step_current_fig, master=self.master)
+        self.step_current.draw()
+        self.step_current.get_tk_widget().grid(row=1, column=2, pady=2, padx=2)
 
         # Check if an action potential occurred or not and writes a message accordingly
         if HH.is_action_potential(i_inj, time_tot):
@@ -108,13 +138,14 @@ class HHSimulatorGUI:
 
     def erase_data(self):
         """Clears the data from the graphs in the window"""
-        # action_fig, dynamics_fig = self.plot_data(15, 15, self.legend_txt)
         self.action_fig = self.action_fig.clf()
         self.dynamics_fig = self.dynamics_fig.clf()
+        self.step_current_fig = self.step_current_fig.clf()
         self.legend_txt = []
 
         self.action_potential.draw()
         self.dynamics_plot.draw()
+        self.step_current.draw()
 
         self.plotted = False
 
