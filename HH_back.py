@@ -21,11 +21,11 @@ def HH(i_inj, time_tot, N_active=True, M_active=True, H_active=True):
     Cm = 1                # [microF/cm^2]
 
     # Determine the percentage (from the total time) of time for the step current
-    step_start_percent = 15
-    step_stop_percent = 30
+    step_start_percent = 10
+    step_stop_percent = 50
 
     # Determine the time interval and the length of the time vector
-    DeltaT = 0.001
+    DeltaT = 0.01
     samples = math.ceil(time_tot / DeltaT)
 
     # Create initial (and empty) vectors for the output
@@ -90,27 +90,22 @@ def HH(i_inj, time_tot, N_active=True, M_active=True, H_active=True):
 
 # Alpha & Beta functions that create the dynamic of the gates (N, M, H)
 def alphaN(v):
-    return (0.01*(v + 55))/(1 - np.exp((-(v + 50))/10))
-
+    return 0.01 * (v + 57) / (1 - np.exp(-(v + 57) / 10))
 
 def betaN(v):
-    return 0.125*np.exp((-(v + 65))/80)
-
+    return 0.125 * np.exp(-(v + 65) / 80)
 
 def alphaM(v):
-    return (0.1*(v + 40))/(1 - np.exp((- (v + 40))/10))
-
+    return 0.1 * (v + 40) / (1 - np.exp(-(v + 40) / 10))
 
 def betaM(v):
-    return 4*np.exp(-(v + 65)/18)
-
+    return 4 * np.exp(-(v + 65) / 18)
 
 def alphaH(v):
-    return 0.07*np.exp(-(v + 65)/20)
-
+    return 0.07 * np.exp(-(v + 65) / 20)
 
 def betaH(v):
-    return 1/(1 + np.exp(-(v + 35)/10))
+    return 1 / (1 + np.exp(-(v + 35) / 10))
 
 
 
